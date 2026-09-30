@@ -64,11 +64,11 @@ Open CoreConfig.xml:
 sudo nano CoreConfig.xml
 ```
 
-Now you are checking two areas of this file: <security> and <network>.
+Now you are checking two areas of this file: '<security>' and '<network>'.
 
-A. Check the <security> section
+A. Check the '<security>' section
 
-Find the <security> section. Inside it should be a <tls ... /> entry similar to:
+Find the '<security>' section. Inside it should be a '<tls ... />' entry similar to:
 
 <security>
     <tls
