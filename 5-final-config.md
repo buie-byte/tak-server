@@ -70,8 +70,8 @@ A. Check the `<security>` section
 
 Find the `<security>` section. Inside it should be a `<tls ... />` entry similar to:
 
-`<security>
-    <br><tls
+`<security>`
+    <br>`<tls
         context="TLSv1" keymanager="SunX509" keystore="JKS"
         keystoreFile="certs/files/takserver.jks" keystorePass="atakatak"
         truststore="JKS" truststoreFile="certs/files/truststore-TAK-ID-CA-01.jks"
