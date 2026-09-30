@@ -64,20 +64,20 @@ Open CoreConfig.xml:
 sudo nano CoreConfig.xml
 ```
 
-Now you are checking two areas of this file: '<security>' and '<network>'.
+Now you are checking two areas of this file: `<security>` and `<network>`.
 
-A. Check the '<security>' section
+A. Check the `<security>` section
 
-Find the '<security>' section. Inside it should be a '<tls ... />' entry similar to:
+Find the `<security>` section. Inside it should be a `<tls ... />` entry similar to:
 
-<security>
+`<security>
     <tls
         context="TLSv1" keymanager="SunX509" keystore="JKS"
         keystoreFile="certs/files/takserver.jks" keystorePass="atakatak"
         truststore="JKS" truststoreFile="certs/files/truststore-TAK-ID-CA-01.jks"
         truststorePass="atakatak"
     />
-</security>
+</security>`
 
 
 ## Install Client Certificates on ATAK
