@@ -15,7 +15,7 @@ Reload the firewall's configuration:
 ```
 sudo ufw reload
 ```
->⚠︎ Warning: For Raspberry Pi OS installs, you reboot your device after installing ufw. 
+>⚠︎ Warning: For Raspberry Pi OS installs, you must reboot your device after installing ufw. 
 
 Check the current operational status and list of active rules for your firewall:
 ```
@@ -53,6 +53,31 @@ sudo ufw allow 8443
 ```
 
 ## Configure TAK Server Certificate
+
+First, go to your TAK Server configuration:
+```
+cd /opt/tak
+```
+
+Open CoreConfig.xml:
+```
+sudo nano CoreConfig.xml
+```
+
+Now you are checking two areas of this file: <security> and <network>.
+
+A. Check the <security> section
+
+Find the <security> section. Inside it should be a <tls ... /> entry similar to:
+
+<security>
+    <tls
+        context="TLSv1" keymanager="SunX509" keystore="JKS"
+        keystoreFile="certs/files/takserver.jks" keystorePass="atakatak"
+        truststore="JKS" truststoreFile="certs/files/truststore-TAK-ID-CA-01.jks"
+        truststorePass="atakatak"
+    />
+</security>
 
 
 ## Install Client Certificates on ATAK
