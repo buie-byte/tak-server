@@ -33,7 +33,7 @@ Run the certificate script to generate a subordinate, intermediate CA and link i
 ./makeCert.sh ca <CAcommonName>
 ```
 >🛈 Example:
-><br>./make RootCa.sh –-ca-name TAK-ID-CA-01
+><br>./make RootCa.sh ca TAK-ID-CA-01
 ><br>
 ><br>Follow the prompt to name the intermediate CA. When prompted *Do you want me to move the files around so that future server and client certificates are signed by this new CA? [Y/N]*, type `y` as this is our desired outcome.
 
