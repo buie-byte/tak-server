@@ -66,7 +66,7 @@ sudo nano CoreConfig.xml
 
 Now you are checking two areas of this file: `<security>` and `<network>`.
 
-First, nind the `<security>` section. Inside it should be a `<tls ... />` entry similar to:
+First, find the `<security>` section. Inside it should be a `<tls ... />` entry similar to:
 
 `<security>`
 <br>`<tls context="TLSv1" keymanager="SunX509" keystore="JKS"`
