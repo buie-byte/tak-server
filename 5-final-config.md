@@ -105,7 +105,16 @@ Restart the TAK Server:
 sudo systemctl restart takserver
 ```
 
-
-
-
 ## Install Client Certificates on ATAK
+
+To securely connect your clients to the TAK server, you must install the generated PKCS#12 (.p12) certificates on your devices.
+
+Make sure you have obtained the following two certificate files before proceeding:
+
+- Truststore / CA Certificate: `truststore-root.p12` (or your environment's specific intermediate CA .p12)
+
+- Client Certificate: `user.p12` (your individual user certificate)
+
+> 🛈 Note: If your certificates were created with an export/import password, keep that passphrase handy.
+>
+> 
