@@ -130,12 +130,13 @@ Step 2: Configure Certificates in ATAK
 
 - Add a name for the TAK Server
 - Add the IP Address
+  >🛈 Note: You will create a VPN IP using ZeroTier in the next section
 - Click Advanced Options
 - Select **SSL** for **Streaming Protocol**
 - Insert **8089** for **Server Port**
 - Click the Import Trust Store button to browse and select your `truststore-root.p12` file.
 - Click the Import Client Certificate button to browse and select your `user.p12` file.
-> Enter certificate passwords if prompted.
+  > Enter certificate passwords if prompted.
 - Click the **OK** button
 
 
