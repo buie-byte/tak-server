@@ -87,12 +87,12 @@ Third, change the `truststoreFile` attribute to the trust store you newly create
 Next, find the `<network>` section. Inside it should be an entry similar to:
 
 `<network multicastTTL="5">`
-<br>`<!-- <input _name="stdtcp" protocol="tcp" port="8087"/> -->`
-<br>`<!-- <input _name="stdudp" protocol="udp" port="8087"/> -->`
-<br>`<input _name="stdssl" protocol="tls" port="8089" auth="x509"/>`
-<br>`<!-- <input _name="streamtcp" protocol="stcp" port="8088"/> -->`
-<br>`<!-- <input _name="SAproxy" protocol="mcast" group="239.2.3.1" port="6969" proxy="true"/> -->`
-<br>`<!-- <input _name="GeoChatproxy" protocol="mcast" group="224.10.10.1" port="17012" proxy="true"/> -->`
+<br>&emsp;`<input _name="stdtcp" protocol="tcp" port="8087"/>`
+<br>&emsp;`<input _name="stdudp" protocol="udp" port="8087"/>`
+<br>&emsp;`<input _name="stdssl" protocol="tls" port="8089" auth="x509"/>`
+<br>&emsp;`<input _name="streamtcp" protocol="stcp" port="8088"/>`
+<br>&emsp;`<input _name="SAproxy" protocol="mcast" group="239.2.3.1" port="6969" proxy="true"/>`
+<br>&emsp;`<input _name="GeoChatproxy" protocol="mcast" group="224.10.10.1" port="17012" proxy="true"/>`
 <br>`</network>`
 
 Add a TLS input specifying group-based filtering:
