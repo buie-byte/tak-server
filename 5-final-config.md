@@ -69,9 +69,7 @@ Now you are checking two areas of this file: `<security>` and `<network>`.
 First, find the `<security>` section. Inside it should be a `<tls ... />` entry similar to:
 
 `<security>`
-<br>`<tls context="TLSv1" keymanager="SunX509" keystore="JKS"`
-<br>`keystoreFile="certs/files/takserver.jks" keystorePass="atakatak" truststore="JKS"` <br>`truststoreFile="certs/files/truststore-TAK-ID-CA-01.jks"`
-<br>`truststorePass="atakatak">`
+<br>&emsp;`<tls context="TLSv1" keymanager="SunX509" keystore="JKS" keystoreFile="certs/files/takserver.jks" keystorePass="atakatak" truststore="JKS" truststoreFile="certs/files/truststore-TAK-ID-CA-01.jks" truststorePass="atakatak">
 <br>`<!-- (Uncomment the following if you are using a CRL) -->`
 <br>`<!-- <crl _name="Marti CA" crlFile="certs/ca.crl"/> -->`
 <br>`</tls>`
