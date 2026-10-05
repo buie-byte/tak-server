@@ -159,12 +159,12 @@ Import Certificates:
 
 - Import `truststore-root.p12` into the Authorities / Trusted Root Certification Authorities tab.
 
-- Import `user.p12` into the Your Certificates / Personal tab.
+- Import `admin.p12` into the Your Certificates / Personal tab.
 
 - Enter the certificate passphrase when prompted.
 
 Connect to Web Services:
 
-- Navigate to your TAK server URL https://localhost:8443/Marti.
+- Navigate to your TAK server URL `https://localhost:8443/Marti`.
 
-- When prompted by your browser to choose a admin certificate, select the certificate matching your admin `user.p12` file.
+- When prompted by your browser to choose a certificate, select the certificate matching your `admin.p12` file.
