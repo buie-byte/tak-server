@@ -75,7 +75,7 @@ Authorize the admin cert to perform administrative functions using the UI:
 ```
 sudo java -jar /opt/tak/utils/UserManager.jar certmod -A /opt/tak/certs/files/admin.pem
 ```
-> 🛈 Note: You should receive a confirmation that looks similar to this:
+> 🛈 Note: You **must** receive a confirmation that looks similar to this:
 > <br>
 <br>User Updated:
 <br>&emsp;&emsp;&emsp;Username:&emsp;&emsp;'admin'
