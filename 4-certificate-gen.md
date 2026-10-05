@@ -49,15 +49,37 @@ Generate a unique security certificate assigned directly to your server's domain
 
 Create an individual security certificate for standard ATAK devices on your network to securely authenticate them to the server:
 ```
-./makeCert.sh client user
+./makeCert.sh client <commonName>
 ```
 >🛈 Example:
-><br>./makeCert client atak-user1
+><br>./makeCert client user
 
 Generate a dedicated administrative client certificate that grants secure, high-privilege access for managing your TAK Server:
 ```
-./makeCert.sh client admin
+./makeCert.sh client <commonName>
 ```
 >🛈 Example:
-><br>./makeCert client tak-admin
+><br>./makeCert client admin
 
+Become a normal user:
+```
+exit
+```
+
+Restart the TAK Server:
+```
+sudo systemctl restart takserver
+```
+
+Authorize the admin cert to perform administrative functions using the UI:
+```
+sudo java -jar /opt/tak/utils/UserManager.jar certmod -A /opt/tak/certs/files/admin.pem
+```
+> 🛈 Note: You should receive a confirmation that looks similar to this:
+> <br>
+<br>User Updated:
+<br>&emsp;&emsp;&emsp;Username:&emsp;&emsp;'admin'
+<br>&emsp;&emsp;&emsp;Role:&emsp;&emsp;ROLE_ADMIN
+<br>&emsp;&emsp;&emsp;Fingerprint:&emsp;&emsp;12:A8:56:78:91:01:21:FF:D7:12:A8:56:78:91:01:21:FF:D7
+<br>&emsp;&emsp;&emsp;Groups (read and write permission):
+<br>&emsp;&emsp;&emsp;&emsp;\_\_ANON__
