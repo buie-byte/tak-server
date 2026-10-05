@@ -105,7 +105,7 @@ Restart the TAK Server:
 sudo systemctl restart takserver
 ```
 
-## Install Client Certificates on ATAK
+## Install ATAK Client Certificates on Android
 
 To securely connect your clients to the TAK server, you must install the generated PKCS#12 (.p12) certificates on your devices.
 
@@ -116,5 +116,27 @@ Make sure you have obtained the following two certificate files before proceedin
 - Client Certificate: `user.p12` (your individual user certificate)
 
 > 🛈 Note: If your certificates were created with an export/import password, keep that passphrase handy.
->
-> 
+
+Step 1: Transfer Certificates
+
+Copy both `truststore-root.p12` and `user.p12` to your Android device's local storage (e.g., via USB transfer, secure file transfer, or download to your Downloads folder).
+
+Step 2: Configure Certificates in ATAK
+
+- Open ATAK.
+
+- Navigate to:
+<br>**Settings** > **Network Preferences** > **TAK Servers** > **Menu** (three dots in right hand corner) > **Add**
+
+- Add a name for the TAK Server
+- Add the IP Address
+- Click Advanced Options
+- Select **SSL** for **Streaming Protocol**
+- Insert **8089** for **Server Port**
+- Click the Import Trust Store button to browse and select your `truststore-root.p12` file.
+- Click the Import Client Certificate button to browse and select your `user.p12` file.
+> Enter certificate passwords if prompted.
+- Click the **OK** button
+
+
+## Install ATAK Admin Certificates on WebTAK
