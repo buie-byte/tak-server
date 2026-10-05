@@ -18,7 +18,7 @@ This page covers the foundational setup of the operating system and graphical en
 
 ## Install Ubuntu Server 22.04.5 LTS
 
-1. Download the IOS image here: https://releases.ubuntu.com/22.04.5/ubuntu-22.04.5-live-server-amd64.iso
+1. Download the ISO image here: https://releases.ubuntu.com/22.04.5/ubuntu-22.04.5-live-server-amd64.iso
 2. Create a bootable USB flash drive with an image writer (Raspberry Pi Imager)
 >🛈 NOTE: When selecting an operating system (OS) choose **Use custom**, and select the downloaded IOS image. 
 3. Boot the newly created image from Raspberry Pi imager from the USB flash drive to the desired computer
