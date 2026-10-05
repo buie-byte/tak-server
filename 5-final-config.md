@@ -85,5 +85,23 @@ Third, change the `truststoreFile` attribute to the trust store you generated wi
 > 🛈 Example:
 > <br>certs/files/truststore-TAK-ID-CA-01.jks
 
+Next, find the `<network>` section. Inside it should be an entry similar to:
+
+`<network multicastTTL="5">`
+<br>`<!-- <input _name="stdtcp" protocol="tcp" port="8087"/> -->`
+<br>`<!-- <input _name="stdudp" protocol="udp" port="8087"/> -->`
+<br>`<input _name="stdssl" protocol="tls" port="8089" auth="x509"/>`
+<br>`<!-- <input _name="streamtcp" protocol="stcp" port="8088"/> -->`
+<br>`<!-- <input _name="SAproxy" protocol="mcast" group="239.2.3.1" port="6969" proxy="true"/> -->`
+<br>`<!-- <input _name="GeoChatproxy" protocol="mcast" group="224.10.10.1" port="17012" proxy="true"/> -->`
+<br>`</network>`
+
+Add a TLS input specifying group-based filtering:
+
+```
+<input _name="stdssl" protocol="tls" port="8089" auth="x509"/>
+```
+
+
 
 ## Install Client Certificates on ATAK
