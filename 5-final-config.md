@@ -135,8 +135,9 @@ Step 2: Configure Certificates in ATAK
 - Select **SSL** for **Streaming Protocol**
 - Insert **8089** for **Server Port**
 - Click the Import Trust Store button to browse and select your `truststore-root.p12` file.
+- Enter Trust Store Certificate password.
 - Click the Import Client Certificate button to browse and select your `user.p12` file.
-  > Enter certificate passwords if prompted.
+- Insert Client Certificate password.
 - Click the **OK** button
 
 
