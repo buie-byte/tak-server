@@ -66,17 +66,22 @@ sudo nano CoreConfig.xml
 
 Now you are checking two areas of this file: `<security>` and `<network>`.
 
-A. Check the `<security>` section
-
-Find the `<security>` section. Inside it should be a `<tls ... />` entry similar to:
+First, nind the `<security>` section. Inside it should be a `<tls ... />` entry similar to:
 
 `<security>`
-    <br>`<tls
-        context="TLSv1" keymanager="SunX509" keystore="JKS"
-        keystoreFile="certs/files/takserver.jks" keystorePass="atakatak"
-        truststore="JKS" truststoreFile="certs/files/truststore-TAK-ID-CA-01.jks"
-        truststorePass="atakatak"/>`
+<br>`<tls context="TLSv1" keymanager="SunX509" keystore="JKS"`
+<br>`keystoreFile="certs/files/takserver.jks" keystorePass="atakatak" truststore="JKS"` <br>`truststoreFile="certs/files/truststore-TAK-ID-CA-01.jks"`
+<br>`truststorePass="atakatak">`
+<br>`<!-- (Uncomment the following if you are using a CRL) -->`
+<br>`<!-- <crl _name="Marti CA" crlFile="certs/ca.crl"/> -->`
+<br>`</tls>`
 <br>`</security>`
+
+Second, change the `keystoreFile` attribute to the server keystore that you generated with `makeCerts.sh server`. 
+> For example: certs/files/takserver.jks or your specific server IP.jks.
+
+Third, change the `truststoreFile` attribute to the trust store you generated with `makeCert.sh ca <CAcommonName>` 
+> (e.g., certs/files/truststore-TAK-ID-CA-01.jks).
 
 
 ## Install Client Certificates on ATAK
