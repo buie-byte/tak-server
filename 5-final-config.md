@@ -126,7 +126,7 @@ Step 2: Configure Certificates in ATAK
 - Open ATAK.
 
 - Navigate to:
-<br>**Settings** > **Network Preferences** > **TAK Servers** > **Menu** (three dots in right hand corner) > **Add**
+<br>**Settings** &rightarrow; **Network Preferences** &rightarrow; **TAK Servers** 	&rightarrow; **Menu** (three dots in right hand corner) &rightarrow; **Add**
 
 - Add a name for the TAK Server
 - Add the IP Address
@@ -142,3 +142,29 @@ Step 2: Configure Certificates in ATAK
 
 
 ## Install ATAK Admin Certificates on WebTAK
+
+The same .p12 certificate files are used for browser-based access:
+
+- TAK Server Web UI: Administrative portal.
+
+- WebTAK: Lightweight web client for end-users and administrators.
+
+Open Browser Certificate Settings:
+
+- Chrome / Edge (Windows/macOS): Go to Settings &rightarrow; Privacy and Security &rightarrow; Security &rightarrow; Manage Certificates.
+
+- Firefox: Go to Settings	&rightarrow; Privacy & Security &rightarrow; Scroll to Certificates &rightarrow; Click View Certificates.
+
+Import Certificates:
+
+- Import `truststore-root.p12` into the Authorities / Trusted Root Certification Authorities tab.
+
+- Import `user.p12` into the Your Certificates / Personal tab.
+
+- Enter the certificate passphrase when prompted.
+
+Connect to Web Services:
+
+- Navigate to your TAK server URL https://localhost:8443/Marti.
+
+- When prompted by your browser to choose a admin certificate, select the certificate matching your admin `user.p12` file.
