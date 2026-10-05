@@ -69,10 +69,7 @@ Now you are checking two areas of this file: `<security>` and `<network>`.
 First, find the `<security>` section. Inside it should be a `<tls ... />` entry similar to:
 
 `<security>`
-<br>&emsp;`<tls context="TLSv1" keymanager="SunX509" keystore="JKS" keystoreFile="certs/files/takserver.jks" keystorePass="atakatak" truststore="JKS" truststoreFile="certs/files/truststore-TAK-ID-CA-01.jks" truststorePass="atakatak">
-<br>`<!-- (Uncomment the following if you are using a CRL) -->`
-<br>`<!-- <crl _name="Marti CA" crlFile="certs/ca.crl"/> -->`
-<br>`</tls>`
+<br>&emsp;`<tls context="TLSv1" keymanager="SunX509" keystore="JKS" keystoreFile="certs/files/takserver.jks" keystorePass="atakatak" truststore="JKS" truststoreFile="certs/files/truststore-TAK-ID-CA-01.jks" truststorePass="atakatak">`
 <br>`</security>`
 
 Second, change the `keystoreFile` attribute to the server keystore that you newly created with `makeCerts.sh server <commonName>`. 
