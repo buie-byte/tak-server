@@ -1,6 +1,7 @@
 # ZeroTier Installation
 
 This section walks through installing ZeroTier One for connecting your node to a virtual network.
+> Note: Complete these steps after you've create a ZeroTier account. You get up to 10 free licenses.
 
 ## Install ZeroTier One
 
