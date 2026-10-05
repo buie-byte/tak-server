@@ -49,3 +49,13 @@ Joining the network notifies the network controller, but traffic will not flow u
 - Check the **Auth?** checkbox to approve the device.
 
 - Once authorized, ZeroTier will assign a virtual managed IP address to your device.
+
+## Verify Netowrk Connection
+
+To verify that your node has joined and received an IP address, run:
+```
+sudo zerotier-cli listnetworks
+```
+>🛈 Note:
+>- Status should read OK (not ACCESS_DENIED or REQUESTING_CONFIGURATION).
+>- A virtual interface (usually zt0 or zt<interface-id>) should now show an assigned managed IP.
