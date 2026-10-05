@@ -78,9 +78,11 @@ First, nind the `<security>` section. Inside it should be a `<tls ... />` entry 
 <br>`</security>`
 
 Second, change the `keystoreFile` attribute to the server keystore that you generated with `makeCerts.sh server`. 
-> For example: certs/files/takserver.jks or your specific server IP.jks.
+> 🛈 Example:
+>  certs/files/takserver.jks or your specific server IP.jks.
 
 Third, change the `truststoreFile` attribute to the trust store you generated with `makeCert.sh ca <CAcommonName>` 
+> 🛈 Example:
 > (e.g., certs/files/truststore-TAK-ID-CA-01.jks).
 
 
