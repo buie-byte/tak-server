@@ -100,6 +100,12 @@ Add a TLS input specifying group-based filtering:
 <input _name="stdssl" protocol="tls" port="8089" auth="x509"/>
 ```
 
+Restart the TAK Server:
+```
+sudo systemctl restart takserver
+```
+
+
 
 
 ## Install Client Certificates on ATAK
