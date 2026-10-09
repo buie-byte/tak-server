@@ -93,6 +93,9 @@ Once logged into your XFCE desktop, open a terminal window and install the follo
 ### Next Step
 Your base operating system, lightweight desktop, and core tools are now fully configured.
 
+➡️ **[Step 2: Dependencies](./2-dependencies.md)**
+
+
 
 
 
