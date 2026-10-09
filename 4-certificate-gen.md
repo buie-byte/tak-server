@@ -126,4 +126,4 @@ This section covers the step-by-step process of creating your server's security 
 
 With your certificates safely created and your administrator credentials authorized, you are ready to configure the server network sockets and client configurations.
 
-➡️ **[Step 5: Final Configuration & Client Setup](./5-Final-Config.md)**
+➡️ **[Step 5: Final Configuration & Client Setup](./5-final-config.md)**
