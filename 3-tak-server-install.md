@@ -106,4 +106,4 @@ This guide covers the core installation process of the TAK Server software. Plea
 
 With the core TAK Server software successfully installed and running, you are ready to configure the internal security enclave and generate certificates.
 
-➡️ **[Step 4: Certificate Generation](./4-Certificate-Gen.md)**
+➡️ **[Step 4: Certificate Generation](./4-certificate-gen.md)**
