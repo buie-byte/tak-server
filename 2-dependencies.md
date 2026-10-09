@@ -43,7 +43,7 @@ TAK Server requires a PostgreSQL database paired with the PostGIS spatial extens
 1. **Install the Linux Standard Base (LSB) Tool:**  
    Identify your specific OS distribution release so that the correct database repository is targeted:
    ```bash
-   sudo apt install -y lsb-release gnupg2 curl
+   sudo apt install -y lsb-release
    ```
 
 2. **Create a Secure Keyring Directory:**  
@@ -64,12 +64,6 @@ TAK Server requires a PostgreSQL database paired with the PostGIS spatial extens
    cat <<HERE | sudo tee /etc/apt/sources.list.d/postgresql.list > /dev/null
    deb [signed-by=/etc/apt/keyrings/postgresql.asc] https://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main
    HERE
-   ```
-
-5. **Update Package Lists & Install Database Packages:**  
-   Update your local package index to incorporate the newly added PostgreSQL repository, then install PostgreSQL and the PostGIS extension:
-   ```bash
-   sudo apt update && sudo apt install -y postgresql-15 postgresql-15-postgis-3
    ```
 
 > [!WARNING]
