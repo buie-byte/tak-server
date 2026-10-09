@@ -1,95 +1,109 @@
-# TAK Server Installation
-This is the core installation of the TAK Server software.
+# Step 3: TAK Server Installation
+
+This guide covers the core installation process of the TAK Server software. Please complete these steps in the exact order presented.
 
 ---
 
+## 3.1. Download Required Files
 
-## Download required files
-Download the `.key`, `.pol`, and `.deb` files from [tak.gov](https://tak.gov/products/tak-server) to the Downloads folder:
-- takserver-public-gpg.key
-- deb_policy.pol
-- takserver_x.x-RELEASExx_all.deb
+1. Download the `.key`, `.pol`, and `.deb` files from the official [tak.gov](https://tak.gov/products/tak-server) portal to your local Downloads folder:
+   * `takserver-public-gpg.key`
+   * `deb_policy.pol`
+   * `takserver_x.x-RELEASExx_all.deb`
 
-## Verify GPG signature to ensure package integrity
-Install the `debsig-verify` utility:
+---
 
-```
-sudo apt install debsig-verify
-```
+## 3.2. Verify GPG Signature and Package Integrity
 
-Create the system directories for the keyring and the verification policy with **your** GPG ID Key:
->🛈 Note: You must retrieve the unique GPG Key ID from your `deb_policy.pol` file (for example: 039FCDA2D8907527) and replace 039FCDA2D8907527 with your actual Key ID in all the commands before running them.     
-```
-sudo mkdir /usr/share/debsig/keyrings/039FCDA2D8907527
-```
-```
-sudo mkdir -p /etc/debsig/policies/039FCDA2D8907527
-```
+1. **Install the Verification Utility:**
+   ```bash
+   sudo apt install debsig-verify -y
+   ```
 
+2. **Retrieve Your Unique GPG Key ID:**
+   Open your downloaded `deb_policy.pol` file to locate your unique GPG Key ID.
+   
+   > [!NOTE]
+   > For the following commands, you must replace the placeholder ID `039FCDA2D8907527` with your actual GPG Key ID.
 
-Initialize the empty keyring file in the new directory:
+3. **Create the Verification Directories:**
+   Create the secure directories required to store your public key ring and signature policies:
+   ```bash
+   sudo mkdir -p /usr/share/debsig/keyrings/039FCDA2D8907527
+   sudo mkdir -p /etc/debsig/policies/039FCDA2D8907527
+   ```
 
-```
-sudo touch /usr/share/debsig/keyrings/039FCDA2D8907527/debsig.gpg
-```
+4. **Initialize the Empty Keyring File:**
+   ```bash
+   sudo touch /usr/share/debsig/keyrings/039FCDA2D8907527/debsig.gpg
+   ```
 
-Navigate into your Downloads directory where the downloaded TAK Server key, policy, and installer files are located:
-```
-cd ./Downloads
-```
+5. **Import the Public Key:**
+   Navigate to your Downloads folder and import the official public GPG security key into the keyring:
+   ```bash
+   cd ~/Downloads
+   sudo gpg --no-default-keyring --keyring /usr/share/debsig/keyrings/039FCDA2D8907527/debsig.gpg --import takserver-public-gpg.key
+   ```
 
-Import the official TAK Server public GPG security key directly into the empty verification keyring file you created earlier:
-```
-sudo gpg --no-default-keyring --keyring /usr/share/debsig/keyrings/039FCDA2D8907527/debsig.gpg --import takserver-public-gpg.key
-```
+6. **Deploy the Policy Configuration:**
+   Copy the signature policy configuration file into the policies directory and rename it to `debsig.pol` so the system can read it:
+   ```bash
+   sudo cp deb_policy.pol /etc/debsig/policies/039FCDA2D8907527/debsig.pol
+   ```
 
-Copy your policy configuration file `deb_policy.pol` into the secure verification directory and rename it to `debsig.pol` so the system can read it:
-```
-sudo cp deb_policy.pol /etc/debsig/policies/039FCDA2D8907527/debsig.pol
-```
+7. **Perform Package Verification:**
+   Run the verification tool in verbose mode to confirm the signature matches your imported key and policy. Replace the filename placeholder with your actual `.deb` file name:
+   ```bash
+   debsig-verify -v takserver_x.x-RELEASExx_all.deb
+   ```
+   *Verify that the command output contains the following statement:*
+   `debsig: Verified package from 'TAK Product Center' (TAK Server Release)`
 
-Run the verification tool in verbose mode to scan the TAK Server Debian package and confirm its signature matches your imported security key and policy:
-```
-debsig-verify -v takserver_x.x-RELEASExx_all.deb
-```
->🛈 Confirm signature verification by identifying the statement:
-><br>debsig: Verified package from 'TAK Product Center' (TAK Server Release)
+---
 
+## 3.3. Install and Initialize TAK Server
 
-## Install TAK Server (single-server)
+1. **Update System Repositories:**
+   Ensure your local package index is completely up to date before initiating the installation:
+   ```bash
+   sudo apt update
+   ```
 
-Navigate to your Downloads directory where the newly verified TAK Server installer package is located:
-```
-cd ./Downloads
-```
+2. **Install the TAK Server Package:**
+   Install the verified Debian package. The package manager will automatically fetch and resolve any required dependencies:
+   ```bash
+   cd ~/Downloads
+   sudo apt install ./takserver_x.x-RELEASExx_all.deb -y
+   ```
 
-Update your local package index to ensure your system has the most recent list of available dependencies and security patches before installing new software:
-```
-sudo apt update
-```
+3. **Reload System Daemons:**
+   Force systemd to reload its background configurations to recognize the newly installed TAK Server service:
+   ```bash
+   sudo systemctl daemon-reload
+   ```
 
-Run the package manager to install the local TAK Server database application along with all of its required system dependencies without being prompted for confirmation:
-```
-sudo apt install ./takserver_x.x-RELEASExx_all.deb -y
-```
+4. **Enable the Service on System Boot:**
+   Configure the system to launch the TAK Server service automatically during startup:
+   ```bash
+   sudo systemctl enable takserver
+   ```
 
-Force the system to reload its background configurations so it recognizes any newly installed or modified TAK Server service files:
-```
-sudo systemctl daemon-reload
-```
-Configure the TAK Server service to automatically launch and run every time the operating system boots up:
-```
-sudo systemctl enable takserver
-```
+5. **Start the TAK Server Process:**
+   Bring your TAK Server online immediately:
+   ```bash
+   sudo systemctl start takserver
+   ```
 
-Start the TAK Server background process to bring your server online now:
-```
-sudo systemctl start takserver
-```
+6. **Verify Service Status:**
+   Check the active running state of the service to verify that it successfully launched without errors:
+   ```bash
+   sudo systemctl status takserver --no-pager
+   ```
 
-View the active running state and recent diagnostic logs of the TAK Server to verify it successfully launched without errors:
-```
-sudo systemctl status takserver
-```
+---
 
+### Next Step
 
+With the core TAK Server software successfully installed and running, you are ready to configure the internal security enclave and generate certificates.
+
+➡️ **[Step 4: Certificate Generation](./4-Certificate-Gen.md)**
