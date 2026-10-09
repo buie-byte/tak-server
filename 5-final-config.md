@@ -15,8 +15,8 @@ This page covers the final steps to make the server operational and connect clie
    ```bash
    sudo ufw reload
    ```
-   > [!WARNING]
-   > **Raspberry Pi OS Installations:** You must reboot your device after installing UFW before proceeding with further firewall configuration steps.
+> [!WARNING]
+> **Raspberry Pi OS Installations:** You must reboot your device after installing UFW before proceeding with further firewall configuration steps.
 
 3. **Check Operational Status:**
    ```bash
