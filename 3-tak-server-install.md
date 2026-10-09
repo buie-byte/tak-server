@@ -23,8 +23,8 @@ This guide covers the core installation process of the TAK Server software. Plea
 2. **Retrieve Your Unique GPG Key ID:**
    Open your downloaded `deb_policy.pol` file to locate your unique GPG Key ID.
    
-   > [!NOTE]
-   > For the following commands, you must replace the placeholder ID `039FCDA2D8907527` with your actual GPG Key ID.
+> [!NOTE]
+> For the following commands, you must replace the placeholder ID `039FCDA2D8907527` with your actual GPG Key ID.
 
 3. **Create the Verification Directories:**
    Create the secure directories required to store your public key ring and signature policies:
