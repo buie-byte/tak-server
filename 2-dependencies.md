@@ -38,10 +38,10 @@ TAK Server utilizes a high number of Java threads to maintain active client conn
 
 ## 2.3. Install PostgreSQL and PostGIS
 
-TAK Server requires a PostgreSQL database paired with the PostGIS spatial extension. Because default system repositories may contain outdated database versions, you must configure the official PostgreSQL repository.
+TAK Server needs PostgreSQL (the database) and PostGIS (the mapping extension) to run. Because standard system app stores often have outdated versions, you must set up the official PostgreSQL repository first.
 
 1. **Install the Linux Standard Base (LSB) Tool:**  
-   Identify your specific OS distribution release so that the correct database repository is targeted:
+   To ensure you download the correct database version, your system needs to identify its specific OS. Install the Linux Standard Base (LSB) tool to do this automatically:
    ```bash
    sudo apt install -y lsb-release
    ```
@@ -55,7 +55,7 @@ TAK Server requires a PostgreSQL database paired with the PostGIS spatial extens
 3. **Download the PostgreSQL Public GPG Key:**  
    Fetch the official GNU Privacy Guard (GPG) public key to verify database packages during installation:
    ```bash
-   sudo curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc --output /etc/apt/keyrings/postgresql.asc
+   sudo curl https://www.postgresql.org/media/keys/ACCC4CF8.asc --output /etc/apt/keyrings/postgresql.asc
    ```
 
 4. **Register the PostgreSQL Software Source:**  
