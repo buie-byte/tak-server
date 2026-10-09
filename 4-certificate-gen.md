@@ -1,85 +1,129 @@
-# Certificate generation
-This section simplifies the step-by-step process of creating your server's security certificates and trusted environment.
+# Step 4: Certificate Generation
 
->🛈 Note: The generated CA truststores and certs will be located here: `/opt/tak/certs/files`.
+This section covers the step-by-step process of creating your server's security certificates and trusted environment.
+
+> [!NOTE]
+> All generated Certificate Authority (CA) truststores and certificates will be stored in the following directory: `/opt/tak/certs/files`
 
 ---
 
+## 4.1. Access the Certificate Directory and Configure Metadata
 
-Switch your terminal session to the dedicated `tak` system user to ensure all generated certificates are created with the correct file ownership and permissions:
-```
-sudo su tak
-```
+1. **Switch to the Dedicated tak System User:**
+   Change your terminal session to the `tak` user to ensure all generated certificate files are created with correct file ownership and system permissions:
+   ```bash
+   sudo su tak
+   ```
 
-Open the metadata configuration file in a text editor to define your server's geographic and organizational identity settings (such as country, state, and organization name):
-```
-nano /opt/tak/certs/cert-metadata.sh
-```
+2. **Configure Certificate Identity Settings:**
+   Open the certificate metadata file in a text editor to define your server's organizational and geographic settings:
+   ```bash
+   nano /opt/tak/certs/cert-metadata.sh
+   ```
 
-Navigate directly into the target certificates directory where the built-in certificate generation scripts must be executed:
-```
-cd /opt/tak/certs
-```
+3. **Navigate to the Script Directory:**
+   ```bash
+   cd /opt/tak/certs
+   ```
 
-Run the root authority script to establish your private, top-level Certificate Authority (CA) that will cryptographically anchor all other certificates on your network:
-```
-./makeRootCa.sh --ca-name <CAcommonName>
-```
->🛈 Example:
-><br>./make RootCa.sh –-ca-name TAK-ROOT-CA-01
+---
 
-Run the certificate script to generate a subordinate, intermediate CA and link it to your newly created root authority:
-```
-./makeCert.sh ca <CAcommonName>
-```
->🛈 Example:
-><br>./make RootCa.sh ca TAK-ID-CA-01
-><br>
-><br>Follow the prompt to name the intermediate CA. When prompted *Do you want me to move the files around so that future server and client certificates are signed by this new CA? [Y/N]*, type `y` as this is our desired outcome.
+## 4.2. Create the Certificate Authority (CA) and Server Certificates
 
-Generate a unique security certificate assigned directly to your server's domain name or IP address to encrypt all incoming connection traffic:
-```
-./makeCert.sh server <commonName>
-```
->🛈 Example using domain name:
-><br>./makeCert server takserver
-><br>
-><br>🛈 Example using IP address:
-><br>./makeCert server 10.3.120.45
+1. **Establish the Root Certificate Authority:**
+   Run the root CA generation script to create your top-level trusted certificate:
+   ```bash
+   ./makeRootCa.sh --ca-name <CAcommonName>
+   ```
+   *Example:*
+   ```bash
+   ./makeRootCa.sh --ca-name TAK-ROOT-CA-01
+   ```
 
-Create an individual security certificate for standard ATAK devices on your network to securely authenticate them to the server:
-```
-./makeCert.sh client <commonName>
-```
->🛈 Example:
-><br>./makeCert client user
+2. **Generate and Link the Intermediate CA:**
+   Create a subordinate, intermediate CA and link it to your newly created root authority:
+   ```bash
+   ./makeCert.sh ca <CAcommonName>
+   ```
+   *Example:*
+   ```bash
+   ./makeCert.sh ca TAK-ID-CA-01
+   ```
+   *Note: When prompted "Do you want me to move the files around so that future server and client certificates are signed by this new CA? [Y/N]", type `y`.*
 
-Generate a dedicated administrative client certificate that grants secure, high-privilege access for managing your TAK Server:
-```
-./makeCert.sh client <commonName>
-```
->🛈 Example:
-><br>./makeCert client admin
+3. **Generate the Server Certificate:**
+   Create a unique security certificate mapped directly to your server's domain name or static IP address:
+   ```bash
+   ./makeCert.sh server <commonName>
+   ```
+   *Example using a domain name:*
+   ```bash
+   ./makeCert.sh server takserver
+   ```
+   *Example using an IP address:*
+   ```bash
+   ./makeCert.sh server 10.3.120.45
+   ```
 
-Become a normal user:
-```
-exit
-```
+---
 
-Restart the TAK Server:
-```
-sudo systemctl restart takserver
-```
+## 4.3. Generate Client and Administrative Certificates
 
-Authorize the admin cert to perform administrative functions using the UI:
-```
-sudo java -jar /opt/tak/utils/UserManager.jar certmod -A /opt/tak/certs/files/admin.pem
-```
-> 🛈 Note: You **must** receive a confirmation that looks similar to this:
-> <br>
-<br>User Updated:
-<br>&emsp;&emsp;&emsp;Username:&emsp;&emsp;'admin'
-<br>&emsp;&emsp;&emsp;Role:&emsp;&emsp;ROLE_ADMIN
-<br>&emsp;&emsp;&emsp;Fingerprint:&emsp;&emsp;12:A8:56:78:91:01:21:FF:D7:12:A8:56:78:91:01:21:FF:D7
-<br>&emsp;&emsp;&emsp;Groups (read and write permission):
-<br>&emsp;&emsp;&emsp;&emsp;\_\_ANON__
+1. **Generate Standard Client Certificates:**
+   Create individual client certificates for standard ATAK devices on your network:
+   ```bash
+   ./makeCert.sh client <commonName>
+   ```
+   *Example:*
+   ```bash
+   ./makeCert.sh client user
+   ```
+
+2. **Generate Administrative Client Certificates:**
+   Create a dedicated client certificate for high-privilege administrative management:
+   ```bash
+   ./makeCert.sh client <commonName>
+   ```
+   *Example:*
+   ```bash
+   ./makeCert.sh client admin
+   ```
+
+3. **Exit the tak User Session:**
+   Return to your normal user terminal session:
+   ```bash
+   exit
+   ```
+
+---
+
+## 4.4. Apply Certificates and Authorize Admin Access
+
+1. **Restart the TAK Server:**
+   Restart the server daemon to load and apply your new server certificates:
+   ```bash
+   sudo systemctl restart takserver
+   ```
+
+2. **Authorize the Administrative Certificate:**
+   Map the newly generated `admin.pem` certificate directly to the administrator role within the TAK Server database:
+   ```bash
+   sudo java -jar /opt/tak/utils/UserManager.jar certmod -A /opt/tak/certs/files/admin.pem
+   ```
+   *Note: Ensure the command output confirms the user updates match the structure below:*
+   ```plaintext
+   User Updated:
+           Username:      'admin'
+           Role:          ROLE_ADMIN
+           Fingerprint:   12:A8:56:78:91:01:21:FF:D7:12:A8:56:78:91:01:21:FF:D7
+           Groups (read and write permission):
+                   __ANON__
+   ```
+
+---
+
+### Next Step
+
+With your certificates safely created and your administrator credentials authorized, you are ready to configure the server network sockets and client configurations.
+
+➡️ **[Step 5: Final Configuration & Client Setup](./5-Final-Config.md)**
