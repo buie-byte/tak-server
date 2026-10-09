@@ -35,7 +35,7 @@ Select the installation path matching your target hardware:
 2. Click **CHOOSE OS** > **Raspberry Pi OS (Other)** > **Raspberry Pi OS Lite (64-bit)** (Bookworm).
 3. Select your storage drive and click **WRITE**. 
 
-### Path B: Dedicated PC / x86 Hardware
+### Path B: Dedicated PC / x86 Hardware (CLI Only)
 1. Download the official installation image: [Ubuntu Server 22.04.5 LTS ISO](https://releases.ubuntu.com/22.04.5/ubuntu-22.04.5-live-server-amd64.iso).
 2. Burn the ISO to a USB flash drive using **Raspberry Pi Imager** (Select **Use Custom** for the OS and point to your downloaded ISO file).
 3. Boot your target computer from the USB drive and follow the on-screen prompts to complete the OS installation.
