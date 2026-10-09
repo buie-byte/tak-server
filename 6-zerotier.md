@@ -85,4 +85,4 @@ Although your node has joined the network, traffic will not route until the conn
 
 You have successfully completed the TAK Server installation, security configuration, client mapping, and private network integration.
 
-⬅️ **[Return to Main README](../README.md)**
+⬅️ **[Return to Main README](./README.md)**
