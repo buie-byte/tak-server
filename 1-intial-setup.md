@@ -19,7 +19,7 @@ To ensure a stable TAK Server deployment, verify your environment matches the sp
 > <br>
 > <br>**Java Version Compatibility:** TAK Server **requires Java 17 (OpenJDK-17)**. It will fail to initialize if run on Java 11 or Java 21.
 
-### 1.2 RAM Utilization Baselines
+## 1.2 RAM Utilization Baselines
 Choose your desktop environment configuration based on your hardware constraints:
 *   **Headless (CLI Only):** Recommended. Uses **200–300 MB RAM** at idle, reserving maximum system resources for your database and active client connections.
 *   **Lightweight GUI (XFCE):** Uses **350–450 MB RAM** at idle. Provides a graphical desktop with minimal system overhead.
