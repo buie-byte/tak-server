@@ -75,4 +75,4 @@ TAK Server needs PostgreSQL (the database) and PostGIS (the mapping extension) t
 
 With your system dependencies, database sources, and performance limits configured, you are ready to install the core TAK Server software.
 
-➡️ **[Step 3: TAK Server Installation](./3-TAK-server-install.md)**
+➡️ **[Step 3: TAK Server Installation](./3-tak-server-install.md)**
