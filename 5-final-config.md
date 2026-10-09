@@ -1,170 +1,156 @@
-# Final Configuration & Client Setup
-This page covers the final steps to make the server operational and connect clients.
+# Step 5: Final Configuration & Client Setup
+
+This page covers the final steps to make the server operational and connect clients. Please complete these steps in the exact order presented.
 
 ---
 
-## Configure Uncomplicated Firewall (UFW)
+## 5.1. Configure Uncomplicated Firewall (UFW)
 
-Install the Uncomplicated Firewall (UFW) management tool:
+1. **Install the Firewall Utility:**
+   ```bash
+   sudo apt install ufw -y
+   ```
 
-```
-sudo apt install ufw
-```
+2. **Reload the Firewall Service:**
+   ```bash
+   sudo ufw reload
+   ```
+   > [!WARNING]
+   > **Raspberry Pi OS Installations:** You must reboot your device after installing UFW before proceeding with further firewall configuration steps.
 
-Reload the firewall's configuration:
-```
-sudo ufw reload
-```
->⚠︎ Warning: For Raspberry Pi OS installs, you must reboot your device after installing ufw. 
+3. **Check Operational Status:**
+   ```bash
+   sudo ufw status
+   ```
 
-Check the current operational status and list of active rules for your firewall:
-```
-sudo ufw status
-```
+4. **Apply Default Inbound Policy:**
+   Configure the firewall to block all incoming network connections by default:
+   ```bash
+   sudo ufw default deny incoming
+   ```
 
-Set the firewall's default behavior to block all incoming network connections for enhanced security:
-```
-sudo ufw default deny incoming
-```
+5. **Apply Default Outbound Policy:**
+   Configure the firewall to permit all outbound network connections from your server:
+   ```bash
+   sudo ufw default allow outgoing
+   ```
 
-Configure the firewall's default behavior to permit all outbound network connections from your server:
-```
-sudo ufw default allow outgoing
-```
+6. **Permit Remote SSH Connections:**
+   ```bash
+   sudo ufw allow ssh
+   ```
 
-Create a specific rule to allow incoming SSH traffic so you can maintain remote access to your server:
-```
-sudo ufw allow ssh
-```
+7. **Enable the Firewall Service:**
+   ```bash
+   sudo ufw enable
+   ```
 
-Activate the firewall service to begin enforcing its rules:
-```
-sudo ufw enable
-```
+8. **Open TAK Communication Ports:**
+   Permit incoming traffic on TCP ports 8089 and 8443:
+   ```bash
+   sudo ufw allow 8089
+   sudo ufw allow 8443
+   ```
 
-Open port 8089 to allow incoming traffic required for TAK Server communications:
-```
-sudo ufw allow 8089
-```
+---
 
-Open port 8443 to allow secure (SSL/TLS) incoming traffic for TAK Server communications:
-```
-sudo ufw allow 8443
-```
+## 5.2. Configure TAK Server Certificates in CoreConfig.xml
 
-## Configure TAK Server Certificate
+1. **Navigate to the Server Directory:**
+   ```bash
+   cd /opt/tak
+   ```
 
-First, go to your TAK Server configuration:
-```
-cd /opt/tak
-```
+2. **Open the Configuration File:**
+   ```bash
+   sudo nano CoreConfig.xml
+   ```
 
-Open CoreConfig.xml:
-```
-sudo nano CoreConfig.xml
-```
+3. **Configure the `<security>` Section:**
+   Locate the `<security>` block and modify the `<tls>` entry. Update the `keystoreFile` and `truststoreFile` attributes to match the certificates you generated in Step 4:
+   ```xml
+   <security>
+       <tls context="TLSv1" keymanager="SunX509" keystore="JKS" keystoreFile="certs/files/takserver.jks" keystorePass="atakatak" truststore="JKS" truststoreFile="certs/files/truststore-TAK-ID-CA-01.jks" truststorePass="atakatak">
+       </tls>
+   </security>
+   ```
+   *Note: If you are utilizing a Certificate Revocation List (CRL), uncomment the following line by removing the `<!--` and `-->` delimiters:*
+   ```xml
+   <!-- <crl _name="Marti CA" crlFile="certs/ca.crl"/> -->
+   ```
 
-Now you are checking two areas of this file: `<security>` and `<network>`.
+4. **Configure the `<network>` Section:**
+   Locate the `<network>` block and append the secure TLS input configuration:
+   ```xml
+   <network multicastTTL="5">
+       <input _name="stdtcp" protocol="tcp" port="8087"/>
+       <input _name="stdudp" protocol="udp" port="8087"/>
+       <input _name="streamtcp" protocol="stcp" port="8088"/>
+       <input _name="SAproxy" protocol="mcast" group="239.2.3.1" port="6969" proxy="true"/>
+       <input _name="GeoChatproxy" protocol="mcast" group="224.10.10.1" port="17012" proxy="true"/>
+       <input _name="stdssl" protocol="tls" port="8089" auth="x509"/>
+   </network>
+   ```
 
-First, find the `<security>` section. Inside it should be a `<tls ... />` entry similar to:
+5. **Restart the Service to Apply Changes:**
+   ```bash
+   sudo systemctl restart takserver
+   ```
 
-`<security>`
-<br>&emsp;`<tls context="TLSv1" keymanager="SunX509" keystore="JKS" keystoreFile="certs/files/takserver.jks" keystorePass="atakatak" truststore="JKS" truststoreFile="certs/files/truststore-TAK-ID-CA-01.jks" truststorePass="atakatak">`
-<br>`</security>`
-> 🛈 Note:
-> <br> If you are using a Certificate Revocation List (CRL), uncomment the following:
-<br>`<!-- <crl _name="Marti CA" crlFile="certs/ca.crl"/> -->`
+---
 
+## 5.3. Install ATAK Client Certificates on Android
 
-Second, change the `keystoreFile` attribute to the server keystore that you newly created with `makeCerts.sh server <commonName>`. 
-> 🛈 Example:
->  <br>certs/files/takserver.jks or your specific server IP.jks
+To securely connect your clients to the TAK server, you must install the generated PKCS#12 (.p12) certificates on your devices. Ensure you have obtained `truststore-root.p12` (or your environment's specific intermediate CA `.p12`) and `user.p12` (your individual user certificate) before proceeding.
 
-Third, change the `truststoreFile` attribute to the trust store you newly created with `makeCert.sh ca <CAcommonName>` 
-> 🛈 Example:
-> <br>certs/files/truststore-TAK-ID-CA-01.jks
+1. **Transfer Certificates to Device:**
+   Copy `truststore-root.p12` and `user.p12` directly to your Android device's local storage (e.g., via USB transfer, secure file transfer, or download folder).
 
-Next, find the `<network>` section. Inside it should be an entry similar to:
+2. **Navigate to Server Settings in ATAK:**
+   Open ATAK and navigate to:
+   `Settings` -> `Network Preferences` -> `TAK Servers` -> `Menu` (three dots in top right corner) -> `Add`
 
-`<network multicastTTL="5">`
-<br>&emsp;`<input _name="stdtcp" protocol="tcp" port="8087"/>`
-<br>&emsp;`<input _name="stdudp" protocol="udp" port="8087"/>`
-<br>&emsp;`<input _name="streamtcp" protocol="stcp" port="8088"/>`
-<br>&emsp;`<input _name="SAproxy" protocol="mcast" group="239.2.3.1" port="6969" proxy="true"/>`
-<br>&emsp;`<input _name="GeoChatproxy" protocol="mcast" group="224.10.10.1" port="17012" proxy="true"/>`
-<br>`</network>`
+3. **Configure Connection Properties:**
+   * Enter a name for the TAK Server.
+   * Enter the server IP Address. (Note: You will configure a private VPN IP using ZeroTier in the next section).
+   * Tap `Advanced Options`.
+   * Set `Streaming Protocol` to `SSL`.
+   * Set `Server Port` to `8089`.
 
-Add a TLS input specifying group-based filtering:
+4. **Import the Trust Store Certificate:**
+   * Tap `Import Trust Store`.
+   * Browse and select your `truststore-root.p12` file.
+   * Enter the Trust Store Certificate passphrase.
 
-```
-<input _name="stdssl" protocol="tls" port="8089" auth="x509"/>
-```
+5. **Import the Client Certificate:**
+   * Tap `Import Client Certificate`.
+   * Browse and select your `user.p12` file.
+   * Enter the Client Certificate passphrase.
+   * Tap `OK` to save the server configuration.
 
-Restart the TAK Server:
-```
-sudo systemctl restart takserver
-```
+---
 
-## Install ATAK Client Certificates on Android
+## 5.4. Install ATAK Admin Certificates on WebTAK
 
-To securely connect your clients to the TAK server, you must install the generated PKCS#12 (.p12) certificates on your devices.
+The same `.p12` certificate files are used to secure administrative web-based access to the TAK Server Web UI and WebTAK client.
 
-Make sure you have obtained the following two certificate files before proceeding:
+1. **Open Browser Certificate Settings:**
+   * **Chrome / Edge (Windows/macOS):** Go to `Settings` -> `Privacy and Security` -> `Security` -> `Manage Certificates`.
+   * **Firefox:** Go to `Settings` -> `Privacy & Security` -> Scroll to `Certificates` -> Click `View Certificates`.
 
-- Truststore / CA Certificate: `truststore-root.p12` (or your environment's specific intermediate CA .p12)
+2. **Import the Security Certificates:**
+   * Import your `truststore-root.p12` file into the `Authorities` (or `Trusted Root Certification Authorities`) tab.
+   * Import your `admin.p12` file into the `Your Certificates` (or `Personal`) tab.
+   * Enter the respective certificate passphrases when prompted.
 
-- Client Certificate: `user.p12` (your individual user certificate)
+3. **Establish a Secure Connection:**
+   * Navigate to your TAK server URL: `https://localhost:8443/Marti`
+   * When prompted by your web browser, select the certificate matching your imported `admin.p12` file.
 
-> 🛈 Note: If your certificates were created with an export/import password, keep that passphrase handy.
+---
 
-Step 1: Transfer Certificates
+### Next Step
 
-Copy both `truststore-root.p12` and `user.p12` to your Android device's local storage (e.g., via USB transfer, secure file transfer, or download to your Downloads folder).
+Your core TAK Server deployment, firewall protection, certificate mapping, and client software profiles are now fully established.
 
-Step 2: Configure Certificates in ATAK
-
-- Open ATAK.
-
-- Navigate to:
-<br>**Settings** &rightarrow; **Network Preferences** &rightarrow; **TAK Servers** 	&rightarrow; **Menu** (three dots in right hand corner) &rightarrow; **Add**
-
-- Add a name for the TAK Server
-- Add the IP Address
-  >🛈 Note: You will create a VPN IP using ZeroTier in the next section
-- Click Advanced Options
-- Select **SSL** for **Streaming Protocol**
-- Insert **8089** for **Server Port**
-- Click the Import Trust Store button to browse and select your `truststore-root.p12` file.
-- Enter Trust Store Certificate password.
-- Click the Import Client Certificate button to browse and select your `user.p12` file.
-- Insert Client Certificate password.
-- Click the **OK** button
-
-
-## Install ATAK Admin Certificates on WebTAK
-
-The same .p12 certificate files are used for browser-based access:
-
-- TAK Server Web UI: Administrative portal.
-
-- WebTAK: Lightweight web client for end-users and administrators.
-
-Open Browser Certificate Settings:
-
-- Chrome / Edge (Windows/macOS): Go to Settings &rightarrow; Privacy and Security &rightarrow; Security &rightarrow; Manage Certificates.
-
-- Firefox: Go to Settings	&rightarrow; Privacy & Security &rightarrow; Scroll to Certificates &rightarrow; Click View Certificates.
-
-Import Certificates:
-
-- Import `truststore-root.p12` into the Authorities / Trusted Root Certification Authorities tab.
-
-- Import `admin.p12` into the Your Certificates / Personal tab.
-
-- Enter the certificate passphrase when prompted.
-
-Connect to Web Services:
-
-- Navigate to your TAK server URL `https://localhost:8443/Marti`.
-
-- When prompted by your browser to choose a certificate, select the certificate matching your `admin.p12` file.
+➡️ **[Step 6: ZeroTier Setup](./6-zerotier.md)**
