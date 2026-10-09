@@ -1,61 +1,88 @@
-# ZeroTier Installation
+# Step 6: ZeroTier Installation
 
-This section walks through installing ZeroTier One for connecting your node to a virtual network.
->🛈 Note: Complete these steps after you've create a ZeroTier account. You get up to 10 free licenses.
+This section covers installing and configuring ZeroTier One to connect your node to a secure, private virtual network.
 
-## Install ZeroTier One
+> [!NOTE]
+> Ensure you have created a ZeroTier account before starting this process. ZeroTier offers up to 10 free device licenses on standard networks.
 
-Run the ZeroTier install script:
-```
-curl -s https://install.zerotier.com | sudo bash
-```
+---
 
-Check that the background service (zerotier-one) is active and running:
-```
-sudo systemctl status zerotier-one --no-pager
-```
->🛈 Expected Output:
-><br>
-><br>● zerotier-one.service - ZeroTier One
-     <br>Loaded: loaded (/lib/systemd/system/zerotier-one.service; enabled; vendor preset: enabled)
-     <br>Active: active (running) since ...
+## 6.1. Install ZeroTier One
 
-Confirm that your local daemon is responding and identify your **10-digit Node ID**:
-```
-sudo zerotier-cli info
-```
->🛈 Expected Output:
-><br>
-><br>200 info 1a2b3c4d5e 1.12.2 ONLINE
+1. **Run the Official Installation Script:**
+   ```bash
+   curl -s https://install.zerotier.com | sudo bash
+   ```
 
-Join your specified private network by replacing <YOUR_16_DIGIT_NETWORK_ID> with your actual network ID:
-```
-sudo zerotier-cli join <YOUR_16_DIGIT_NETWORK_ID>
-```
->🛈 Expected Output:
-><br>
-><br> 200 join OK
+2. **Verify the Daemon Service Status:**
+   Confirm that the background service is active and running:
+   ```bash
+   sudo systemctl status zerotier-one --no-pager
+   ```
+   *Expected Output snippet:*
+   ```plaintext
+   ● zerotier-one.service - ZeroTier One
+        Loaded: loaded (/lib/systemd/system/zerotier-one.service; enabled; vendor preset: enabled)
+        Active: active (running) since ...
+   ```
 
-## Authorize the Device
+3. **Identify Your Node ID:**
+   Verify that your local daemon is responding and record your unique **10-digit Node ID**:
+   ```bash
+   sudo zerotier-cli info
+   ```
+   *Expected Output snippet:*
+   ```plaintext
+   200 info 1a2b3c4d5e 1.12.2 ONLINE
+   ```
 
-Joining the network notifies the network controller, but traffic will not flow until authorized:
+4. **Join Your Virtual Network:**
+   Replace `<YOUR_16_DIGIT_NETWORK_ID>` with your actual ZeroTier Network ID to join the network:
+   ```bash
+   sudo zerotier-cli join <YOUR_16_DIGIT_NETWORK_ID>
+   ```
+   *Expected Output snippet:*
+   ```plaintext
+   200 join OK
+   ```
 
-- Log into your ZeroTier Central Console (or ask your network administrator).
+---
 
-- Open your network and scroll down to the Members section.
+## 6.2. Authorize the Node on Your Network
 
-- Locate the row matching the **10-digit Node ID**.
+Although your node has joined the network, traffic will not route until the connection is approved by the network controller.
 
-- Check the **Auth?** checkbox to approve the device.
+1. **Access the Console:**
+   Log into your ZeroTier Central Console (or contact your network administrator).
 
-- Once authorized, ZeroTier will assign a virtual managed IP address to your device.
+2. **Navigate to Network Members:**
+   Open your network configuration page and scroll down to the **Members** section.
 
-## Verify Netowrk Connection
+3. **Locate Your Node:**
+   Find the row matching the **10-digit Node ID** you recorded in Step 6.1.3.
 
-To verify that your node has joined and received an IP address, run:
-```
-sudo zerotier-cli listnetworks
-```
->🛈 Note:
->- Status should read OK (not ACCESS_DENIED or REQUESTING_CONFIGURATION).
->- A virtual interface (usually zt0 or zt<interface-id>) should now show an assigned managed IP.
+4. **Approve the Connection:**
+   Check the **Auth?** checkbox to approve the device. Once authorized, the controller will automatically assign a virtual managed IP address to your device.
+
+---
+
+## 6.3. Verify the Network Connection
+
+1. **Confirm Status and IP Address Allocation:**
+   Check your node's network table to ensure it is active and has received its virtual IP address:
+   ```bash
+   sudo zerotier-cli listnetworks
+   ```
+
+2. **Validate Network Sockets:**
+   Confirm the output matches the following parameters:
+   * **Status:** Must read `OK` (not `ACCESS_DENIED` or `REQUESTING_CONFIGURATION`).
+   * **IP Address:** A virtual network interface (typically starting with `zt`) must display your newly assigned managed IP address.
+
+---
+
+### End of Guide
+
+You have successfully completed the TAK Server installation, security configuration, client mapping, and private network integration.
+
+⬅️ **[Return to Main README](../README.md)**
