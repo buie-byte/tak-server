@@ -1,6 +1,6 @@
 # TAK Server Installation Guide (Ubuntu / Raspberry Pi)
 
-This guide provides a comprehensive, step-by-step process for installing a fully functional TAK Server on Ubuntu Server 22.04 w/ Raspberry Pi Bookworm OS.
+This guide provides a comprehensive, step-by-step process for installing a fully functional TAK Server on Raspberry Pi w/ Ubuntu Server 22.04.
 
 ---
 
